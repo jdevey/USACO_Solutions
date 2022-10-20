@@ -33,27 +33,11 @@ int main() {
         cin >> i2[i];
         --i2[i];
     }
-    vector <int> s1, s2;
-    vector <vector <int>> combos(pw(5, 3));
-    for (int i = 0; i < pw(5, 3); ++i) {
-        for (int j = 0, cp = i; j < 3; ++j) {
-            combos[i].push_back(cp % 5 - 2);
-            cp /= 5;
-        }
+    int prod = 1;
+    for (int i = 0; i < 3; ++i) {
+        prod *= max(min(5 - min((i1[i] - i2[i] + n) % n, (i2[i] - i1[i] + n) % n), n), 0);
     }
-    for (auto& c : combos) {
-        int r1 = 0, r2 = 0;
-        for (int i = 0; i < 3; ++i) {
-            r1 += (i1[i] + c[i] + n) % n * pw(n, i);
-            r2 += (i2[i] + c[i] + n) % n * pw(n, i);
-        }
-        s1.push_back(r1);
-        s2.push_back(r2);
-    }
-    sort(s1.begin(), s1.end());
-    sort(s2.begin(), s2.end());
-    vector <int> set_and(125);
-    auto it = set_intersection(s1.begin(), s1.begin() + 125, s2.begin(), s2.begin() + 125, set_and.begin());
-    cout << 250 - (it - set_and.begin()) << endl;
+    int total = pw(min(n, 5), 3) * 2;
+    cout << total - prod << endl;
 	return 0;
 }
